@@ -1,0 +1,36 @@
+Steps to setup the sawtooth network.
+
+Login to 192.168.1.31
+ssh -p 60240 fabric@192.168.1.31 -i id_rsa
+cd /home/fabric/sawtooth-ci/ansible/nucworks
+
+To run ansible to setup sawtooth network with nightly stable
+switch to branch 'nuc_1_0_sim' 
+git checkout nuc_1_0_sim
+To run ansible to setup sawtooth network with nightly stable
+switch to branch 'nuc_nightly_sim'
+git checkout nuc_nightly_sim
+
+Runn following ansible playbook commands to setup network in order.
+
+To stop services
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml stop_sawtooth.yaml
+To uninstall sawtooth
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml uninstall_sawtooth.yaml
+clean up sawooth files(genesis, lmdb and log files)
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml reset_sawtooth.yaml
+Reboot hosts
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml reboot_hosts.yaml
+Check the host are up - ping command to all host
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml ping_check.yaml
+Install sawtooth
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml setup_sawtooth.yaml
+Start sawtooth services
+ansible-playbook --extra-vars "@./configs/lrIndia.yaml" --inventory-file hosts.yaml start_sawtooth_sim.yaml
+
+After starting services check in of the host that all sawtooth services are up and running
+sudo systemctl status sawtooth-*
+
+Download caliper in repo in 192.168.1.31 and trigger tests.
+
+scp -P 60240 -i id_rsa fabric@192.168.1.31:/home/fabric/caliper/benchmark/smallbank/report20180904T065758.html /home/nidhix/(dest)
