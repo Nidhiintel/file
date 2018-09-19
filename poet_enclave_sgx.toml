@@ -1,0 +1,3 @@
+spid = '6A508CE8D1C4DE2B30E60730D0B39632'
+ias_url = 'https://test-as.sgx.trustedservices.intel.com:443'
+spid_cert_file = '/etc/sawtooth/sgx-certificate.pem'
